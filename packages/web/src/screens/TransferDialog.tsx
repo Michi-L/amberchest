@@ -190,11 +190,19 @@ export function TransferDialog({
         {accounts && accounts.length > 0 && (
           <Field label={t('transfer.target')} hint={t('transfer.targetHint')}>
             <Select value={targetId} onChange={(event) => setTargetId(event.target.value)}>
-              {accounts.map((entry) => (
-                <option key={entry.id} value={entry.id}>
-                  {entry.name} — {entry.email} ({entry.messages})
-                </option>
-              ))}
+              {accounts
+                .slice()
+                .sort((a, b) =>
+                  a.name.localeCompare(b.name, 'de', {
+                    sensitivity: 'base',
+                    numeric: true,
+                  }),
+                )
+                .map((entry) => (
+                  <option key={entry.id} value={entry.id}>
+                    {entry.name} — {entry.email} ({entry.messages})
+                  </option>
+                ))}
             </Select>
           </Field>
         )}

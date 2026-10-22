@@ -147,11 +147,19 @@ export function Search(): ReactNode {
             onChange={(event) => setFilters({ ...filters, accountId: event.target.value, folders: [] })}
           >
             <option value="">{t('search.allAccounts')}</option>
-            {accounts.map((entry) => (
-              <option key={entry.account.id} value={entry.account.id}>
-                {entry.account.name}
-              </option>
-            ))}
+            {accounts
+              .slice()
+              .sort((a, b) =>
+                a.account.name.localeCompare(b.account.name, 'de', {
+                  sensitivity: 'base',
+                  numeric: true,
+                }),
+              )
+              .map((entry) => (
+                <option key={entry.account.id} value={entry.account.id}>
+                  {entry.account.name}
+                </option>
+              ))}
           </Select>
 
           <Button onClick={() => setShowFilters((value) => !value)}>

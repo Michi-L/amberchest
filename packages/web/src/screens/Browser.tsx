@@ -369,7 +369,15 @@ export function Browser(): ReactNode {
           className="max-h-64 w-full shrink-0 overflow-y-auto rounded-2xl border p-2 lg:max-h-none lg:w-64"
           style={{ background: 'var(--surface-1)' }}
         >
-          {accounts.map((entry) => {
+          {accounts
+            .slice()
+            .sort((a, b) =>
+              a.account.name.localeCompare(b.account.name, 'de', {
+                sensitivity: 'base',
+                numeric: true,
+              }),
+            )
+            .map((entry) => {
             const accountId = entry.account.id;
             const isCollapsed = collapsedAccounts.has(accountId);
             const tree = trees[accountId] ?? [];

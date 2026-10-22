@@ -219,7 +219,15 @@ export function Overview({ onGoToAccounts }: { onGoToAccounts: () => void }): Re
           {t('overview.status')}
         </div>
         <div className="flex flex-col gap-2">
-          {accounts.map((entry) => (
+          {accounts
+            .slice()
+            .sort((a, b) =>
+              a.account.name.localeCompare(b.account.name, 'de', {
+                sensitivity: 'base',
+                numeric: true,
+              }),
+            )
+            .map((entry) => (
             <AccountRow key={entry.account.id} overview={entry} progress={progress[entry.account.id]} />
           ))}
         </div>
