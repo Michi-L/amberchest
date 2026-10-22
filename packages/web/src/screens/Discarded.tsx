@@ -94,11 +94,19 @@ export function Discarded(): ReactNode {
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
           <Select value={accountId} onChange={(event) => setAccountId(event.target.value)}>
             <option value="">{t('discarded.allAccounts')}</option>
-            {accounts.map((entry) => (
-              <option key={entry.account.id} value={entry.account.id}>
-                {entry.account.name}
-              </option>
-            ))}
+            {accounts
+              .slice()
+              .sort((a, b) =>
+                a.account.name.localeCompare(b.account.name, 'de', {
+                  sensitivity: 'base',
+                  numeric: true,
+                }),
+              )
+              .map((entry) => (
+                <option key={entry.account.id} value={entry.account.id}>
+                  {entry.account.name}
+                </option>
+              ))}
           </Select>
 
           <Select value={folder} onChange={(event) => setFolder(event.target.value)}>
