@@ -268,13 +268,21 @@ export function Dashboard(): ReactNode {
   // The filter box only appears once the list is long enough to need it.
   const showFilter = accounts.length >= 5;
   const needle = filter.trim().toLowerCase();
-  const visible =
+  const visible = (
     showFilter && needle
       ? accounts.filter((overview) => {
           const { name, host, username } = overview.account;
-          return [name, host, username].some((value) => value.toLowerCase().includes(needle));
+          return [name, host, username].some((value) =>
+            value.toLowerCase().includes(needle),
+          );
         })
-      : accounts;
+      : accounts
+  ).slice().sort((a, b) =>
+    a.account.name.localeCompare(b.account.name, 'de', {
+      sensitivity: 'base',
+      numeric: true,
+    }),
+  );
 
   return (
     <div className="flex flex-col gap-5">
